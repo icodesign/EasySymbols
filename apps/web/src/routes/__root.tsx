@@ -3,6 +3,7 @@ import {
   Outlet,
   createRootRoute,
 } from "@tanstack/react-router";
+import { GoogleAnalytics } from "tanstack-router-ga4";
 
 const title = "EasySymbols — SVG to SF Symbol";
 const description =
@@ -40,6 +41,7 @@ function RootLayout() {
   return (
     <>
       <HeadContent />
+      <GoogleAnalytics measurementId="G-092RSRK11B" />
       <Outlet />
     </>
   );

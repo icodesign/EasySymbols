@@ -33,6 +33,7 @@
         "pathkit-wasm": "1.0.0",
         "react": "19.2.6",
         "react-dom": "19.2.6",
+        "tanstack-router-ga4": "^1.6.0",
       },
       "devDependencies": {
         "@eslint/js": "9.39.4",
@@ -781,6 +782,8 @@
     "svg-pathdata": ["svg-pathdata@7.2.0", "", {}, "sha512-qd+AxqMpfRrRQaWb2SrNFvn69cvl6piqY8TxhYl2Li1g4/LO5F9NJb5wI4vNwRryqgSgD43gYKLm/w3ag1bKvQ=="],
 
     "tailwindcss": ["tailwindcss@4.2.1", "", {}, "sha512-/tBrSQ36vCleJkAOsy9kbNTgaxvGbyOamC30PRePTQe/o1MFwEKHQk4Cn7BNGaPtjp+PuUrByJehM1hgxfq4sw=="],
+
+    "tanstack-router-ga4": ["tanstack-router-ga4@1.6.0", "", { "peerDependencies": { "@tanstack/react-router": ">=1", "react": ">=18" } }, "sha512-H9SUSFvDtDH68CNmwKISeVASPKr2DmKFs3ZlfFrmWrjFLDbujMbJxhJHaSHdKcY8dFTP8qoWJSIGP0jBa6vr6Q=="],
 
     "tapable": ["tapable@2.3.3", "", {}, "sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A=="],
 

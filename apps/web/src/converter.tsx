@@ -19,6 +19,7 @@ import {
 } from "@easysymbols/core";
 import { strToU8, zipSync } from "fflate";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useGoogleAnalytics } from "tanstack-router-ga4";
 import pathKitWasmUrl from "pathkit-wasm/bin/pathkit.wasm?url";
 
 import {
@@ -32,6 +33,11 @@ import { defaultVariantMode } from "./variant-mode";
 
 const DEFAULT_PREVIEW_COLOR = "#1688f5";
 const AUTO_CONVERT_DEBOUNCE_MS = 180;
+
+interface ConversionSource {
+  inputType: InputMode;
+  isExample: boolean;
+}
 
 let geometryPromise: Promise<GeometryEngine> | undefined;
 
@@ -126,7 +132,13 @@ function failedConversion(cause: unknown): ConversionResult {
 }
 
 export function Converter() {
+  const ga = useGoogleAnalytics();
   const openPreviewOnSuccess = useRef(false);
+  const currentSource = useRef<ConversionSource>({
+    inputType: "file",
+    isExample: false,
+  });
+  const pendingConversion = useRef<ConversionSource | undefined>(undefined);
   const [inputMode, setInputMode] = useState<InputMode>("file");
   const [source, setSource] = useState("");
   const [codeDraft, setCodeDraft] = useState("");
@@ -274,7 +286,12 @@ export function Converter() {
     [artifact, previewColor, renderingMode],
   );
 
-  function loadSvg(value: string, nextFilename: string) {
+  function loadSvg(
+    value: string,
+    nextFilename: string,
+    inputType: InputMode,
+    isExample = false,
+  ) {
     const hasSource = Boolean(value.trim());
     const effectiveFilename = hasSource ? nextFilename : "";
     let inspection: ReturnType<typeof inspectGeometrySource> | undefined;
@@ -306,6 +323,8 @@ export function Converter() {
     setSourceDrawerOpen(false);
     setIsEditing(true);
     setPhase(hasSource ? "ready" : "empty");
+    currentSource.current = { inputType, isExample };
+    pendingConversion.current = hasSource ? { inputType, isExample } : undefined;
     openPreviewOnSuccess.current = hasSource;
     setSourceRevision((revision) => revision + 1);
   }
@@ -316,7 +335,7 @@ export function Converter() {
       if (!response.ok) {
         throw new Error(`The server returned HTTP ${response.status}.`);
       }
-      loadSvg(await response.text(), "easysymbols-logo.svg");
+      loadSvg(await response.text(), "easysymbols-logo.svg", "file", true);
     } catch (cause) {
       const detail = cause instanceof Error ? cause.message : String(cause);
       setInputError(`Could not load the EasySymbols logo example. ${detail}`);
@@ -361,6 +380,11 @@ export function Converter() {
             );
           }
           if (converted.artifact) {
+            const conversion = pendingConversion.current;
+            pendingConversion.current = undefined;
+            if (conversion && !conversion.isExample) {
+              ga.event("convert", { input_type: conversion.inputType });
+            }
             setPhase("success");
             if (openPreviewOnSuccess.current) {
               openPreviewOnSuccess.current = false;
@@ -390,7 +414,7 @@ export function Converter() {
       return;
     }
     setInputError(undefined);
-    loadSvg(await file.text(), file.name);
+    loadSvg(await file.text(), file.name, "file");
   }
 
   async function fetchSvgUrl() {
@@ -429,6 +453,7 @@ export function Converter() {
         pathFilename.toLowerCase().endsWith(".svg")
           ? pathFilename
           : `${pathFilename}.svg`,
+        "url",
       );
     } catch (cause) {
       const detail = cause instanceof Error ? cause.message : String(cause);
@@ -464,6 +489,9 @@ export function Converter() {
       `${artifact.name}.xcassets.zip`,
       "application/zip",
     );
+    if (!currentSource.current.isExample) {
+      ga.event("download", { download_type: "symbolset" });
+    }
   }
 
   const controlModel: ControlPanelModel | undefined =
@@ -494,6 +522,9 @@ export function Converter() {
                 `${artifact.name}.symbols.svg`,
                 "image/svg+xml",
               );
+            if (artifact && !currentSource.current.isExample) {
+              ga.event("download", { download_type: "symbol" });
+            }
           },
           onDownloadSymbolset: downloadSymbolset,
           onLargeOpticalScaleChange: (value) => {
@@ -588,7 +619,7 @@ export function Converter() {
           setCodeDraft(value);
           setInputError(undefined);
         },
-        onConvertCode: () => loadSvg(codeDraft, "pasted-symbol.svg"),
+        onConvertCode: () => loadSvg(codeDraft, "pasted-symbol.svg", "code"),
         onExample: () => void loadExampleLogo(),
         onFetchUrl: () => void fetchSvgUrl(),
         onFile: (file) => void acceptFile(file),
