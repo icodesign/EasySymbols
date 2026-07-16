@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <g id="Notes">
+    <text id="template-version">Template v.3.0</text>
+  </g>
+  <g id="Guides">
+    <path id="Capline-M" d="M0 0H24"/>
+  </g>
+  <g id="Symbols">
+    <g id="Regular-S">
+      <path d="M2 2H10V10H2Z"/>
+    </g>
+    <g id="Regular-M">
+      <path d="M2 2H12V12H2Z"/>
+    </g>
+    <g id="Black-M">
+      <path d="M1 1H13V13H1Z"/>
+    </g>
+  </g>
+</svg>

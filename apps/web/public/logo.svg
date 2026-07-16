@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 346 350" role="img" aria-labelledby="title description">
+  <title id="title">EasySymbols mark</title>
+  <desc id="description">The cropped black EasySymbols mark.</desc>
+  <g transform="translate(-80 -60)">
+    <path d="M163 395c-37 0-67-30-67-67V218c0-35 17-64 46-84l77-54c20-14 48-14 68 0l77 54c29 20 46 49 46 84v110c0 37-30 67-67 67-25 0-46-20-46-45 0-18 10-34 26-42 8-4 12-11 12-19v-58c0-12-6-24-16-31l-38-26c-17-12-39-12-56 0l-38 26c-10 7-16 19-16 31v58c0 8 4 15 12 19 16 8 26 24 26 42 0 25-21 45-46 45Z" fill="#181818"/>
+    <circle cx="252" cy="276" r="52" fill="#181818"/>
+  </g>
+</svg>

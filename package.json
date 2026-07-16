@@ -1,0 +1,29 @@
+{
+  "name": "easysymbols",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "bun@1.3.14",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "bun": ">=1.3.14",
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "build": "bun run --filter '@easysymbols/*' build",
+    "deploy:web": "bun run --filter @easysymbols/web deploy",
+    "dev": "bun run --filter @easysymbols/web dev",
+    "start": "bun run --filter @easysymbols/web start",
+    "test": "bun run build && bunx vitest run && bun run --filter @easysymbols/web test:rendered",
+    "test:watch": "bunx vitest",
+    "typecheck": "bun run --filter '@easysymbols/*' typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}

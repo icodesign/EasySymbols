@@ -1,0 +1,27 @@
+{
+  "name": "@easysymbols/core",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "pathkit-wasm": "1.0.0",
+    "saxes": "^6.0.0",
+    "svg-pathdata": "^7.2.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-wasm": "2.4.0"
+  }
+}

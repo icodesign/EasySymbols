@@ -1,0 +1,17 @@
+{
+  "name": "@easysymbols/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "easysymbols": "./dist/main.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@easysymbols/core": "workspace:*",
+    "pathkit-wasm": "1.0.0"
+  }
+}
