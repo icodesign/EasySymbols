@@ -357,7 +357,7 @@ export function ConverterWorkbench({
           >
             <a
               className="text-xs font-semibold text-ink no-underline transition-colors hover:text-accent"
-              href="https://github.com/icodesign/easysymbol"
+              href="https://github.com/icodesign/easysymbols"
               target="_blank"
               rel="noreferrer"
             >
